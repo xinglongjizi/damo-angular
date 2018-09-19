@@ -1,0 +1,11 @@
+<form action="">
+	<h1>add a link</h1>
+	<label for="title">title:</label>
+	<input type="text" id="title" name="title" #titleInput>
+	<br>
+	<label for="link">link:</label>
+	<input type="text" id="link" name="link" #linkInput>
+	<br>
+	<button (click)="addArticle(titleInput, linkInput)">submit link</button>
+</form>
+<app-article *ngFor="let obj of articles"  [article]="obj"></app-article>
