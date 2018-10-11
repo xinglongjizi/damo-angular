@@ -28,7 +28,7 @@ import { ArticleComponent } from './article/article.component';
   	],
   	//	服务的创建者，本模块吧他们加入全局的服务列表中，让他们在应用中的任何部分都可以被访问到
   	providers: [],
-  	// 只能将根模块写到bootstrap对应的数组中
+  	// 只能将根组件写到bootstrap对应的数组中
   	bootstrap: [AppComponent]
 })
 
