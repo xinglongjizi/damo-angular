@@ -5,8 +5,7 @@
 
 
 
-
-
+// 普通的一个定义Article类的ts文件，Article类作为一个数据模型，因此命名为 xxx.model.ts
 
 
 export class Article{
