@@ -34,4 +34,5 @@ import { ArticleComponent } from './article/article.component';
 
 // class Xxx关键字class用来定义名为Xxx的类
 // 关键字export则定义了这个类是可以被导出的，即其他文件可以通过import来导入这个类
-export class AppModule {}
+export class AppModule{}
+// 因为只需要用到这个根模块中@NgModule装饰器中定义的东西，所以这里定义的类里是空的
