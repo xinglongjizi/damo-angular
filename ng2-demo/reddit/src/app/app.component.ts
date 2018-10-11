@@ -11,8 +11,11 @@ import { Article } from './article/article.model';
 
 // export指定了组件可以再文件外使用，即是可被导出的
 export class AppComponent {
+  // 组件类的私有属性
 	articles: Array<Article>;
 
+  // 组件类的构造函数，通常用来初始化组件类的私有属性
+	// 组件类被“调用时”，自动执行构造函数，因此私有属性会得到赋值
 	constructor(){
 		this.articles = [
 			new Article('title text 1', 'link text 1', 100),
