@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="./libs/jquery-ui-1.12.1/jquery-ui.min.css">
+	<style>
+		*{padding: 0;margin: 0;}
+		ul{
+			width: 50%;
+			margin: 0 auto;
+			list-style: none;
+		}
+		ul > li{
+			height: 30px;
+			line-height: 30px;
+			font-size: 0;
+			
+		}
+		ul > li:not(:last-child){
+			margin-bottom: 10px;
+		}
+		ul > li > span{
+			display: inline-block;
+			vertical-align: middle;
+		}
+		ul > li .sort-handle{
+			width: 10px;
+			height: 30px;
+			background: #00aaf2;
+			cursor: move;
+			border-radius: 4px 0 0 4px;
+		}
+		ul > li > .txt{
+			width: calc(100% - 10px);
+			font-size: 14px;
+			background: green;
+			color: #fff;
+			border-radius: 0 4px 4px 0;
+		}
+	</style>
+</head>
+<body>
+
+	<ul id="sortable">
+		<li id="sort_1">
+			<span class="sort-handle"></span>
+			<span class="txt">Item 1</span>
+		</li>
+		<li id="sort_2">
+			<span class="sort-handle"></span>
+			<span class="txt">Item 2</span>
+		</li>
+		<li id="sort_3">
+			<span class="sort-handle"></span>
+			<span class="txt">Item 3</span>
+		</li>
+		<li id="sort_4">
+			<span class="sort-handle"></span>
+			<span class="txt">Item 4</span>
+		</li>
+		<li id="sort_5">
+			<span class="sort-handle"></span>
+			<span class="txt">Item 5</span>
+		</li>
+		<li id="sort_6">
+			<span class="sort-handle"></span>
+			<span class="txt">Item 6</span>
+		</li>
+	</ul>
+	
+<script src="./libs/jquery-ui-1.12.1/external/jquery/jquery.js"></script>
+<script src="./libs/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+<script>
+	
+	$("#sortable").sortable({
+		containment: "body",
+		cursor: 'default',
+		delay: 100,
+		handle: '.sort-handle',
+		revert: 150,
+		tolerance: "pointer",
+		zIndex: 9999,
+		update: function(){
+			var queryStr = $("#sortable").sortable("serialize");
+			alert( queryStr );
+		},
+	});
+</script>
+</body>
+</html>

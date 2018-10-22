@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="./libs/jquery-ui-1.12.1/jquery-ui.min.css">
+</head>
+<body>
+
+	<div>
+		<div id="box">
+		<p class="title">box head</p>
+		<p>box body</p>
+	</div>
+	<style>
+		*{padding: 0;margin: 0;}
+		#box{
+			width: 100px;
+			height: 100px;
+			background: blue;
+		}
+		#box > p{
+			height: 50px;
+			background: green;
+		}
+		#box > p:last-child{
+			background: red;
+		}
+		#draggable {
+    		width: 100px;
+    		height: 100px;
+    		background: #ccc;
+ 	 	}
+		#droppable {
+		    width: 200px;
+		    height: 200px;
+		    background: #999;
+		    color: #fff;
+		    padding: 10px;
+		}
+	</style>
+
+	<div id="draggable">请拖拽我！</div>
+	<div id="droppable">请放置到这里！</div>
+	<ul id="sortable">
+  <li>Item 1</li>
+  <li>Item 2</li>
+  <li>Item 3</li>
+  <li>Item 4</li>
+  <li>Item 5</li>
+</ul>
+	
+<script src="./libs/jquery-ui-1.12.1/external/jquery/jquery.js"></script>
+<script src="./libs/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+<script>
+	$('#box').draggable({
+		// cancel: ".title",
+		// containment: "parent",
+		// cursor: "move",
+		// grid: [ 100, 100 ]
+		handle: '.title',
+		// helper: function(){
+		// 	return $('<p>aaa</p>');
+		// },
+		// refreshPositions: true 
+		revert: 'invalid',
+		revertDuration: 100,
+		scroll: false,
+	});
+	$( "#draggable" ).draggable({
+		// scope: "tasks",
+		snap: true
+	});
+	$( "#droppable" ).droppable({
+		// accept: "#box",
+		// scope: "tasks",
+		tolerance: 'fit',
+		drop: function(){
+			alert('dropped');
+		},
+	});
+	$("#sortable").sortable();
+</script>
+</body>
+</html>
