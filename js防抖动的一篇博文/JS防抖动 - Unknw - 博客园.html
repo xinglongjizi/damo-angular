@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)https://www.cnblogs.com/Unknw/p/6689137.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+<title>JS防抖动 - Unknw - 博客园</title>
+<meta property="og:description" content="这道题目经常与事件触发器同时存在，为了考察面试者在一些具体业务流程上（信息流，搜索框输入查询）等，能否综合的考虑实现思路。 题目：在某些信息列表中一般采用瀑布流，滚动一屏时加载相应的数据，请思考如何避">
+<link type="text/css" rel="stylesheet" href="./JS防抖动 - Unknw - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./JS防抖动 - Unknw - 博客园_files/bundle-rivercast.css">
+<link type="text/css" rel="stylesheet" href="./JS防抖动 - Unknw - 博客园_files/190630.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./JS防抖动 - Unknw - 博客园_files/bundle-rivercast-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/Unknw/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/Unknw/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/Unknw/wlwmanifest.xml">
+<script async="" src="./JS防抖动 - Unknw - 博客园_files/analytics.js"></script><script src="./JS防抖动 - Unknw - 博客园_files/jquery-2.2.0.min.js"></script>
+<script type="text/javascript">var currentBlogApp = 'Unknw', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="./JS防抖动 - Unknw - 博客园_files/blog-common.js" type="text/javascript"></script>
+<link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com" as="script"><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com"></script><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_274.js" async=""></script></head><style type="text/css" id="2426142920393"></style>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="centerbody" align="center">
+<div id="header">
+	
+<!--done-->
+<div class="header">
+	<div class="headerText">
+		<a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/Unknw/">丶不知</a><br>
+		I don't know what I want, but I know what I wanna try
+	</div>
+</div>
+
+</div>
+<div id="main">
+<div id="mytopmenu">
+	
+	<div id="mylinks">
+<!--done-->
+<a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a>&nbsp;&nbsp;&nbsp;
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/Unknw/">首页</a>&nbsp;&nbsp;&nbsp;
+<a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a>&nbsp;&nbsp;&nbsp;
+<a id="blog_nav_contact" accesskey="9" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/Unknw">联系</a>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+<a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a>
+</div>
+		<div id="mystats">
+			<div id="blog_stats">
+<!--done-->
+<div class="blogStats">
+posts - 94,&nbsp;
+comments - 3,&nbsp;
+trackbacks - 0
+
+</div></div></div>
+	
+</div>
+<div id="centercontent">
+	
+<div id="post_detail">
+<!--done-->
+<div class="post">
+	<div class="postTitle">
+		<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/Unknw/p/6689137.html">JS防抖动</a>
+	</div>
+	<div id="cnblogs_post_body" class="blogpost-body"><p>这道题目经常与事件触发器同时存在，为了考察面试者在一些具体业务流程上（信息流，搜索框输入查询）等，能否综合的考虑实现思路。</p>
+<p>&nbsp;</p>
+<p><strong>题目：在某些信息列表中一般采用瀑布流，滚动一屏时加载相应的数据，请思考如何避免连续下拉时而产生的问题（可能是页面崩溃，也可能是巨卡无比）。</strong></p>
+<p>&nbsp;</p>
+<p>一般情况下，如果碰到这样的面试题，防抖动机制，就能很好的解决，这方面最早的应用实践还是Twitter，开发者写了一篇博客，详细的阐述了如何解决这样的问题。那么，说到防抖动，其核心内涵在于延迟处理，也就是将一系列的事件处理程序全部延迟，保障推送进来的第一次事件处理。</p>
+<p>&nbsp;</p>
+<pre><span>event.<span>on(<span><span>'scroll<span>', <span>function(<span>e){    <br><span> &nbsp; &nbsp;var fun;    <br><span> &nbsp; &nbsp;return <span>function(){        <br><span> &nbsp; &nbsp; &nbsp; &nbsp;if(fun) <span>clearTimeout(fun);
+        fun <span>= <span>setTimeout(<span>function(){            <br><span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;// console.log('1')
+        },<span>500);
+    }
+}());</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>&nbsp;</p>
+<p>这是最常见的一种方式，如果scroll的次数较多时，可以先将真实的函数放置在定时器中。</p>
+<p>&nbsp;</p>
+<p>接下来我们将它抽象一下：</p>
+<p>&nbsp;</p>
+<pre><span>function <span>de(<span>something,<span>delay){    <br><span> &nbsp; &nbsp;var fun;    <br><span> &nbsp; &nbsp;return <span>function(){        <br><span> &nbsp; &nbsp; &nbsp; &nbsp;if(fun) <span>clearTimeout(fun);
+        fun <span>= <span>setTimeout(<span>function(){            <br><span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;something();
+        },delay);
+    }
+}<br><span>function <span>scrollToList(){
+
+}<br><span>event.<span>on(<span><span>'scroll<span>', <span>de(scrollToList,<span>1000))<br><span>event.<span>on(<span><span>'scroll<span>', <span>de(scrollToList,<span>2000))</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>&nbsp;</p>
+<p>显然这是一个弱爆了的处理，那有没有更好的方式呢？有，比如节流。</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/Unknw/category/921351.html" target="_blank">JS</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(6689137,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;2402d4c7-5704-e411-8d02-90b11c0b17d6&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./JS防抖动 - Unknw - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./JS防抖动 - Unknw - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/Unknw/" target="_blank"><img src="./JS防抖动 - Unknw - 博客园_files/20140705232452.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/Unknw/">Unknw</a><br>
+            <a href="http://home.cnblogs.com/u/Unknw/followees">关注 - 28</a><br>
+            <a href="http://home.cnblogs.com/u/Unknw/followers">粉丝 - 9</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;2402d4c7-5704-e411-8d02-90b11c0b17d6&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(6689137,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(6689137,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/Unknw/p/6689127.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/Unknw/p/6689127.html" title="发布于2017-04-10 15:06">13 个最佳 JavaScript 数据网格库</a><br><a href="https://www.cnblogs.com/Unknw/p/6689154.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/Unknw/p/6689154.html" title="发布于2017-04-10 15:10">JavaScript 函数式编程</a><br></div>
+</div>
+
+
+	<div class="postDesc">posted on <span id="post-date">2017-04-10 15:08</span> <a href="https://www.cnblogs.com/Unknw/">Unknw</a> 阅读(<span id="post_view_count">3215</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=6689137" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/Unknw/p/6689137.html#" onclick="AddToWz(6689137);return false;">收藏</a></div>
+</div>
+<script type="text/javascript">var allowComments=true,cb_blogId=190630,cb_entryId=6689137,cb_blogApp=currentBlogApp,cb_blogUserGuid='2402d4c7-5704-e411-8d02-90b11c0b17d6',cb_entryCreatedDate='2017/4/10 15:08:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/Unknw/p/6689137.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/Unknw/p/6689137.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/rinson/p/5565631.html" target="_blank" onclick="clickRecomItmem(5565631,&#39;8cnitP38EXapCCwxA+5I2cL806ccGiIPlBKvuxnBlSfXJyEWHIB7JHSy46vspSGttkp/e9F+GeQmZWqZLyuLKRTGmC7wnLFdBSN2d4UUIjEGzpIU6nLO7eMS4vOVRCrjhqyrkItr6MRVZxYK&#39;)">技术面试之经验总结</a><br>·  <a href="https://www.cnblogs.com/mianshibaodian/archive/2010/10/18/1854388.html" target="_blank" onclick="clickRecomItmem(1854388,&#39;43SoL7f5sgyyiiXDGxwmK3KOFVx/x/hONJz4eSAuer5jv9poQNK+vPAjItBuuL9zEFCwGg6YG2MzJoIm8NJIXV/ckeCXL85Hx0IeMpC7DpYoEo0fnzG/E2OrwIhVFEN6yyxiPxDKhrQq3FZQ&#39;)">C#与.NET程序员面试宝典 前言</a><br>·  <a href="https://www.cnblogs.com/shihao/archive/2009/05/13/1456281.html" target="_blank" onclick="clickRecomItmem(1456281,&#39;el76LbnxwlPwWRlG9OoaIJ2BkMMo5BHpM/0l15D86Ogd8StTedf7GQR/VmCIuyCOmecR8UXoNTqR0vY77BfXs/tk9skuTSGfMjksMOQ34VAQF3qs8c7VqHOrgISMHrL4gKIHTHrMCJ/SEkGR&#39;)">招聘编辑的七道面试题</a><br>·  <a href="https://www.cnblogs.com/lixiaolun/p/4805061.html" target="_blank" onclick="clickRecomItmem(4805061,&#39;R1oUbIOaH5E21xkELhwegqAKE2IKN8/cElxRyje6hHYgg24FqlU3B2aRLvuhwTk2BQA4iJmkEdVvfH6pgufgbhpW/f/6GkQYA4eGlQ0J8wJId+uGLbDPpTRt3u2PNvkBOvx1pd5CqsnouyBN&#39;)">计算机面试书籍与求职网站推荐</a><br>·  <a href="https://www.cnblogs.com/peirunou/archive/2008/12/04/1347525.html" target="_blank" onclick="clickRecomItmem(1347525,&#39;2nuzehXBnRokEcfspmYXWPZonzjI7lo5S0Pv0QOFDzAul++NU4EofcNBfAfzLCO3FHqOX5eMRkOwZq5A/Hs00JUwJbrZMAu8Ef+2CqtrHClEXq4WssiLy7DdI5anE5PApigwjVRiHXv3aWAJ&#39;)">程序员面试一般会问哪些问题，以供大家参考（以.NET程序员以例）</a><br></div></div>
+<script async="async" src="./JS防抖动 - Unknw - 博客园_files/gpt.js"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;">
+    <script>
+    if (new Date() >= new Date(2018, 9, 13)) {
+        googletag.cmd.push(function() { googletag.display('div-gpt-ad-1539008685004-0'); });
+    }
+    </script>
+    </div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/612001/" target="_blank">欧盟委员会主席：向科技巨头征收数字税很必要</a><br> ·  <a href="https://news.cnblogs.com/n/611999/" target="_blank">网易云音乐完成新一轮融资，金额或接近6亿美元</a><br> ·  <a href="https://news.cnblogs.com/n/611998/" target="_blank">索尼的PlayStation Classic使用了开源的PCSX</a><br> ·  <a href="https://news.cnblogs.com/n/611997/" target="_blank">原来在新浪微博眼里，男性用户全员水军</a><br> ·  <a href="https://news.cnblogs.com/n/611996/" target="_blank">趣头条Q3营收环比翻番 打造下沉市场第一流量入口</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	
+<!--done-->
+<div class="footer">
+	
+	Copyright ©2018  Unknw Powered By: <a href="http://www.cnblogs.com/">博客园</a> 模板提供：<a href="http://blog.hjenglish.com/">沪江博客</a>
+</div>
+</div>
+
+<div id="leftcontent">
+	
+		<div id="leftcontentcontainer">
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2018/10/01&#39;);return false;">&lt;</a></td><td align="center">2018年11月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2018/12/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td class="CalWeekendDay" align="center">3</td></tr><tr><td class="CalWeekendDay" align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center">7</td><td align="center">8</td><td align="center">9</td><td class="CalWeekendDay" align="center">10</td></tr><tr><td class="CalWeekendDay" align="center">11</td><td class="CalTodayDay" align="center">12</td><td align="center">13</td><td align="center">14</td><td align="center">15</td><td align="center">16</td><td class="CalWeekendDay" align="center">17</td></tr><tr><td class="CalWeekendDay" align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td align="center">23</td><td class="CalWeekendDay" align="center">24</td></tr><tr><td class="CalWeekendDay" align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td align="center">30</td><td class="CalOtherMonthDay" align="center">1</td></tr><tr><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script><br>
+			
+<!--done-->
+<div class="newsItem">
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/Unknw/">Unknw</a><br>园龄：<a href="https://home.cnblogs.com/u/Unknw/" title="入园时间：2014-07-05">4年4个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/Unknw/followers/">9</a><br>关注：<a href="https://home.cnblogs.com/u/Unknw/followees/">28</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;2402d4c7-5704-e411-8d02-90b11c0b17d6&#39;)">+加关注</a></div><script>getFollowStatus('2402d4c7-5704-e411-8d02-90b11c0b17d6')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/Unknw/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/Unknw/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/Unknw/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/Unknw/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/Unknw/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+
+</div></div><div id="sidebar_toptags" class="sidebar-block"></div><div id="sidebar_categories">
+<!--done-->
+
+		<h1 class="catListTitle">随笔分类</h1>
+		
+				<ul class="catList">
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_0" class="listitem" href="https://www.cnblogs.com/Unknw/category/966007.html">C++</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_1" class="listitem" href="https://www.cnblogs.com/Unknw/category/966014.html">Canvas</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_2" class="listitem" href="https://www.cnblogs.com/Unknw/category/921351.html">JS(52)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_3" class="listitem" href="https://www.cnblogs.com/Unknw/category/921353.html">JS数据结构(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_4" class="listitem" href="https://www.cnblogs.com/Unknw/category/990603.html">SQL(2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_5" class="listitem" href="https://www.cnblogs.com/Unknw/category/966013.html">SVG(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_6" class="listitem" href="https://www.cnblogs.com/Unknw/category/963885.html">机器视觉(3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_7" class="listitem" href="https://www.cnblogs.com/Unknw/category/921952.html">前端(31)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_8" class="listitem" href="https://www.cnblogs.com/Unknw/category/592960.html">数据结构(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_9" class="listitem" href="https://www.cnblogs.com/Unknw/category/990602.html">数据库(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_10" class="listitem" href="https://www.cnblogs.com/Unknw/category/952921.html">图形学(2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_11" class="listitem" href="https://www.cnblogs.com/Unknw/category/1191687.html">移动端(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_12" class="listitem" href="https://www.cnblogs.com/Unknw/category/1004740.html">游戏(1)</a></li>
+			
+				</ul>
+			
+	
+		<h1 class="catListTitle">随笔档案</h1>
+		
+				<ul class="catList">
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_0" class="listitem" href="https://www.cnblogs.com/Unknw/archive/2018/04.html">2018年4月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_1" class="listitem" href="https://www.cnblogs.com/Unknw/archive/2017/10.html">2017年10月 (2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_2" class="listitem" href="https://www.cnblogs.com/Unknw/archive/2017/08.html">2017年8月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_3" class="listitem" href="https://www.cnblogs.com/Unknw/archive/2017/07.html">2017年7月 (2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_4" class="listitem" href="https://www.cnblogs.com/Unknw/archive/2017/06.html">2017年6月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_5" class="listitem" href="https://www.cnblogs.com/Unknw/archive/2017/05.html">2017年5月 (4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_6" class="listitem" href="https://www.cnblogs.com/Unknw/archive/2017/04.html">2017年4月 (12)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_7" class="listitem" href="https://www.cnblogs.com/Unknw/archive/2017/03.html">2017年3月 (26)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_8" class="listitem" href="https://www.cnblogs.com/Unknw/archive/2017/02.html">2017年2月 (26)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_9" class="listitem" href="https://www.cnblogs.com/Unknw/archive/2017/01.html">2017年1月 (11)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_10" class="listitem" href="https://www.cnblogs.com/Unknw/archive/2016/12.html">2016年12月 (7)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_11" class="listitem" href="https://www.cnblogs.com/Unknw/archive/2014/07.html">2014年7月 (1)</a></li>
+			
+				</ul>
+			
+	
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<h3 class="catListTitle">最新评论</h3>
+<div class="RecentComment" id="RecentComments">
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/Unknw/p/6346681.html#3905112">1. Re:JavaScript实现10大算法可视化</a></li>
+        <li class="recent_comment_body">javascript 排序算法，写的不错，学习了。感谢分享</li>
+        <li class="recent_comment_author">--牛顿的小脑</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/Unknw/p/6422158.html#3743312">2. Re:爬虫的终极形态：nightmare</a></li>
+        <li class="recent_comment_body">博主，有没有更进一步的例子呢</li>
+        <li class="recent_comment_author">--vera369</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/Unknw/p/6346681.html#3609337">3. Re:JS中常见排序算法详解</a></li>
+        <li class="recent_comment_body">谢谢分享</li>
+        <li class="recent_comment_author">--shaller</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<h3 class="catListTitle">阅读排行榜</h3>
+<div class="RecentComment" id="TopViewPosts"> 
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/Unknw/p/6431375.html">1. 谈一谈创建React Component的几种方式(18935)</a></li><li><a href="https://www.cnblogs.com/Unknw/p/6689137.html">2. JS防抖动(3214)</a></li><li><a href="https://www.cnblogs.com/Unknw/p/6346681.html">3. JavaScript实现10大算法可视化(2437)</a></li><li><a href="https://www.cnblogs.com/Unknw/p/6440808.html">4. RxJS 入门指引和初步应用(2361)</a></li><li><a href="https://www.cnblogs.com/Unknw/p/6422111.html">5. RxJS/Cycle.js 与 React/Vue 相比更适用于什么样的应用场景？(1343)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<h3 class="catListTitle">评论排行榜</h3>
+<div class="RecentComment" id="TopCommentsPosts">
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/Unknw/p/6346681.html">1. JavaScript实现10大算法可视化(2)</a></li><li><a href="https://www.cnblogs.com/Unknw/p/6422158.html">2. 爬虫的终极形态：nightmare(1)</a></li></ul></div>
+</div></div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div class="RecentComment">
+	<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/Unknw/p/6440808.html">1. RxJS 入门指引和初步应用(2)</a></li><li><a href="https://www.cnblogs.com/Unknw/p/6431375.html">2. 谈一谈创建React Component的几种方式(2)</a></li><li><a href="https://www.cnblogs.com/Unknw/p/6149525.html">3. 爱上一门语言不需要理由——我的js之路(1)</a></li><li><a href="https://www.cnblogs.com/Unknw/p/6346681.html">4. JavaScript实现10大算法可视化(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script></div>
+	
+</div>
+
+</div>
+
+</div>
+
+
+
+</body></html>
