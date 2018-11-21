@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+</head>
+<body ng-controller="mainCtrl">
+
+	<h2>{{ 'a' | translate }}</h2>
+	<button ng-click="switchLang('en')">switch english</button>
+	<button ng-click="switchLang('zh')">switch chinese</button>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.6/angular.min.js"></script>
+<script src="https://cdn.bootcss.com/angular-translate/2.18.1/angular-translate.min.js"></script>
+<script src="https://cdn.bootcss.com/angular-translate/2.18.1/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
+<script>
+	var app = angular.module('app', ['pascalprecht.translate']);
+
+	app.config(['$translateProvider', function($translateProvider){
+		// $translateProvider.translations('zh', {
+		// 	a: '啊啊啊',
+		// 	b: '不不不',
+		// })
+		// .translations('en', {
+		// 	a: 'aaa',
+		// 	b: 'bbb',
+		// });
+
+		$translateProvider.useStaticFilesLoader({
+            prefix: '/ng/i18n/',
+            suffix: '.json'
+        });
+		$translateProvider.preferredLanguage('zh');
+	}]);
+
+	app.controller('mainCtrl', ['$translate', '$scope', function($translate, $scope){
+		$scope.switchLang = function(lang){
+			$translate.use(lang);
+		};
+	}])
+</script>
+</body>
+</html>
