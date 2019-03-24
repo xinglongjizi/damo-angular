@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 100%; margin: 0">
+
+
+       <div class="echarts-wrapper">
+          <div class="line"><span>1</span></div>
+          <div class="line"><span>2</span></div>
+          <div class="line"><span>3</span></div>
+          <div class="line"><span>4</span></div>
+          <div class="line"><span>5</span></div>
+          <div class="line"><span>6</span></div>
+          <div class="line"><span>7</span></div>
+          <div class="line"><span>8</span></div>
+          <div class="line"><span>9</span></div>
+          <div class="line"><span>10</span></div>
+          <div class="line"><span>11</span></div>
+          <div class="line"><span>12</span></div>
+          <div id="container" style="width: 200px;height: 200px;"></div>
+       </div>
+
+
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+       <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+       <script type="text/javascript">
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+
+option = null;
+
+option = {
+    series: [
+        {
+            name:'访问来源',
+            type:'pie',
+            radius: ['80%', '100%'],
+            avoidLabelOverlap: false,
+            label: {
+                normal: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    show: true,
+                    textStyle: {
+                        fontSize: '30',
+                        fontWeight: 'bold'
+                    }
+                }
+            },
+            labelLine: {
+                normal: {
+                    show: false
+                }
+            },
+            data:[
+                {value:1},
+                {value:1},
+                {value:1},
+                {value:1},
+                {value:1},
+                {value:1},
+                {value:1},
+                {value:1},
+                {value:1},
+                {value:1},
+                {value:1},
+                {value:1},
+            ]
+        }
+    ]
+};
+;
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+       </script>
+   </body>
+</html>
+
+<style>
+  *{margin-top: 0;padding: 0;}
+
+.echarts-wrapper{
+  position: relative;
+}
+
+.echarts-wrapper::after{
+  content: "";
+  position: absolute;
+  top: 99px;
+  left: 100px;
+  width: 2px;
+  height: 2px;
+  background: red;
+}
+
+.line{
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  width: 1px;
+  height: 80px;
+  border: 1px dashed red;
+transform-origin: center 0;
+box-sizing: border-box;
+}
+
+.line > span{
+  position: absolute;
+    top: 50%;
+    left: -12px;
+    /*transform: translate(-50%, -50%) rotate(-180deg);*/ /* by js */
+}
+
+</style>
+<script>
+  $('.line').each(function(i, el){
+    var deg = 180 + i*(360/12);
+    $(el).css({
+      'transform': 'rotate('+ deg +'deg)' + ' ' + 'translateY(4px)',
+      
+    }).children('span').css({
+      'transform': 'translate(-50%, -50%)' + ' ' + 'rotate('+ (0-deg) +'deg)',
+    });
+
+  });
+
+/*
+  'translateY(4px)' 配合
+  .echarts-wrapper::after{
+  content: "";
+  position: absolute;
+  top: 99px;
+  left: 100px;
+  width: 2px;
+  height: 2px;
+  background: red;
+}
+的中间一点，解决的是，线太多时，中间有个集中的大圆点
+解决的原理就是让线从中间分散开，不要让开始的地方合成一点
+*/
+</script>
