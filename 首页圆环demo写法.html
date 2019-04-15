@@ -13,12 +13,6 @@
           <div class="line"><span>4</span></div>
           <div class="line"><span>5</span></div>
           <div class="line"><span>6</span></div>
-          <div class="line"><span>7</span></div>
-          <div class="line"><span>8</span></div>
-          <div class="line"><span>9</span></div>
-          <div class="line"><span>10</span></div>
-          <div class="line"><span>11</span></div>
-          <div class="line"><span>12</span></div>
           <div id="container" style="width: 200px;height: 200px;"></div>
        </div>
 
@@ -44,7 +38,7 @@ option = {
                     position: 'center'
                 },
                 emphasis: {
-                    show: true,
+                    show: false,
                     textStyle: {
                         fontSize: '30',
                         fontWeight: 'bold'
@@ -57,12 +51,6 @@ option = {
                 }
             },
             data:[
-                {value:1},
-                {value:1},
-                {value:1},
-                {value:1},
-                {value:1},
-                {value:1},
                 {value:1},
                 {value:1},
                 {value:1},
@@ -119,7 +107,7 @@ box-sizing: border-box;
 </style>
 <script>
   $('.line').each(function(i, el){
-    var deg = 180 + i*(360/12);
+    var deg = 180 + i*(360/6);
     $(el).css({
       'transform': 'rotate('+ deg +'deg)' + ' ' + 'translateY(4px)',
       
