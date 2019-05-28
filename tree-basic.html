@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style=" margin: 0">
+       <div id="container" style="width: 300px;height: 180px;"></div>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+       <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+       <script type="text/javascript">
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+
+option = null;
+var data = {
+	name: 'IR',
+ 	children: [
+  		{
+			name: "AR",
+			children: [
+				{
+				    name: 'AR1',
+				    children: [
+						{
+							name: 'AR2',
+						},
+				    ],
+				},
+				{
+				    name: 'AR1',
+				    children: [
+						{
+							name: 'AR2',
+						},
+				    ],
+				}
+		   	],
+  		},
+  		{
+			name: "AR",
+			children: [
+				{
+				    name: 'AR1',
+				    children: [
+						{name: 'AR2',},
+				    ],
+				},
+				{
+				    name: 'AR1',
+				    children: [
+						{name: 'AR2',},
+				    ],
+				}
+		   	],
+  		},
+  		{
+			name: "AR",
+			children: [
+				{
+				    name: 'AR1',
+				    children: [
+						{name: 'AR2',},
+				    ],
+				}
+		   	],
+  		},
+  		{
+			name: "AR",
+			children: [
+				{
+				    name: 'AR1',
+				    children: [
+						{name: 'AR2',},
+				    ],
+				}
+		   	],
+  		},
+  	],
+};
+
+
+
+option = {
+        
+        series: [
+            {
+                type: 'tree',
+                expandAndCollapse: false,
+                data: [data],
+                left: 16,
+                top: 4,
+                bottom: 4,
+                right: 16,
+
+                symbolSize: 1,
+                initialTreeDepth: 1000,
+                itemStyle: {
+                	color: '#fff',
+                	borderColor: '#fff',
+                },
+
+
+                label: {
+                    normal: {
+                        position: 'left',
+                        verticalAlign: 'middle',
+                        align: 'center',
+                        fontSize: 12,
+                        color: '#000',
+                    },
+                },
+
+                lineStyle: {
+                	color: '#ccc',
+                	width: 1,
+                	curveness: 0,
+                },                
+            },
+        ],
+    };
+// 让后台返回标识树展开有多少“行”的值，好动态设置容器的高度,每行设置30px的高度
+// 再设置一个透明的div盖在canvas上，以免鼠标出现手型
+
+
+
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+       </script>
+   </body>
+</html>
