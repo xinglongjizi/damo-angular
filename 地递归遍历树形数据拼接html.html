@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+<script>
+        $(function(){
+            // 一层（平级）的树形数据类型
+            var data = [
+                { id: 1, name: "办公管理", pid: 0 },
+                { id: 2, name: "请假申请", pid: 1 },
+                { id: 3, name: "出差申请", pid: 1 },
+                { id: 4, name: "请假记录", pid: 2 },
+                { id: 5, name: "系统设置", pid: 0 },
+                { id: 6, name: "权限管理", pid: 5 },
+                { id: 7, name: "用户角色", pid: 6 },
+                { id: 8, name: "菜单设置", pid: 6 },
+                { id: 9, name: "菜单设置", pid: 8 },
+                { id: 100, name: "菜单设置", pid: 9 },
+            ];
+
+            // 树形的数据类型
+            var treeData = [
+                {
+                    name: '0',
+                    children: [
+                        {
+                            name: '00',
+                            children: null,
+                        },
+                        {
+                            name: '00',
+                            children: [
+                                {
+                                    name: '000',
+                                    children: null,
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    name: '0',
+                    children: [
+                        {
+                            name: '00',
+                            children: null,
+                        },
+                        {
+                            name: '00',
+                            children: [
+                                {
+                                    name: '000',
+                                    children: null,
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    name: '0',
+                    children: [
+                        {
+                            name: '00',
+                            children: null,
+                        },
+                        {
+                            name: '00',
+                            children: [
+                                {
+                                    name: '000',
+                                    children: null,
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ];
+
+            GetData(0, data);
+            invokeTree(treeData);
+            $("body").append(menus);
+            $("body").append(html);
+        });
+
+        //菜单列表html, 主要使用字符串的拼接
+        var menus = '';
+
+        // 获取指定pid的顶层菜单数据数据
+        // arry：原始菜单数据
+        // 在原始菜单数据中返回指定pid的元素构成的数组
+        function GetParentArry(pid, array){
+            var parentList = [];
+            $.each(array, function(i, val){
+                if( val.pid==pid ) parentList.push(val);
+            });
+            return parentList;
+        };
+
+        //根据菜单主键id生成菜单列表html
+        //id：菜单主键id
+        //arry：菜单数组信息
+        function GetData(pid, array){
+            var parentList = GetParentArry(pid, array);
+            if( parentList.length>0 ){
+                menus += '<ul>';
+                $.each(parentList, function(i, val){
+                    menus += '<li>';
+                    menus += val.name;
+                    GetData(val.id, array);
+                    menus += '</li>';
+                });
+                menus += '</ul>';
+            }
+        };
+
+
+        // tree形数据
+
+        var html = '';
+        function invokeTree(array){
+            if( !array || array.length==0 ) return;
+            html += '<ul>';
+            $.each(array, function(i, obj){
+                html += '<li>';
+                html += obj.name;
+                invokeTree(obj.children);
+                html += '</li>';
+            });
+            html += '</ul>';
+        };
+
+
+</script>
+</body>
+</html>
